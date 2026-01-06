@@ -10,10 +10,6 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import BlotFormatter from "quill-blot-formatter";
-
-// ✅ Register blot formatter (Quill v2 compatible)
-Quill.register("modules/blotFormatter", BlotFormatter);
 
 const WriteResources = () => {
   const { user, isLoaded, isSignedIn } = useUser();
