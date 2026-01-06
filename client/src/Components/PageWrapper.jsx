@@ -1,4 +1,4 @@
-import mountains from "../public/mountains.jpg";
+import mountains from "../assets/mountains.jpg";
 
 const bgMap = {
   stories: {
