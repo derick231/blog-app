@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PostList from "../Components/PostList";
 import Navbar from "../Components/Navbar";
 import PageWrapper from "../Components/PageWrapper";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },

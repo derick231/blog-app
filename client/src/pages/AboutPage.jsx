@@ -2,7 +2,7 @@ import React from "react";
 import PageWrapper from "../Components/PageWrapper";
 import Navbar from "../Components/Navbar";
 import AboutLinks from "../Components/AboutLinks";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 /* ------------------ Animation Variants ------------------ */
 

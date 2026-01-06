@@ -8,7 +8,7 @@ import { format } from "timeago.js";
 import axios from "axios";
 import DOMPurify from "dompurify";
 import Navbar from "../Components/Navbar";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 
 /* ------------------ Animations ------------------ */
 

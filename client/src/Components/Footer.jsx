@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Images from "./Images";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 /* ------------------ Animation Variants ------------------ */
 

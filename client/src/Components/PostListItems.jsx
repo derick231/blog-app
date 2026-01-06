@@ -2,7 +2,7 @@ import React from "react";
 import Images from "./Images";
 import { Link } from "react-router-dom";
 import { format } from "timeago.js";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },

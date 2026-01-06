@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PageWrapper from "../Components/PageWrapper";
 import Navbar from "../Components/Navbar";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 
 /* ------------------ Animation Variants ------------------ */
 
