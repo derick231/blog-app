@@ -9,7 +9,6 @@ const fadeUp = {
   visible: { opacity: 1, y: 0 },
 };
 
-
 const PostListItems = ({ post }) => {
   return (
     <motion.div
@@ -18,14 +17,15 @@ const PostListItems = ({ post }) => {
       whileInView="visible"
       viewport={{ once: true }}
       transition={{ duration: 1, ease: "easeOut" }}
-      className="flex flex-col lg:flex-row gap-8 lg:gap-16 justify-center items-center"
+      className="flex group flex-col-reverse  lg:flex-row gap-8 lg:gap-16 justify-center lg:items-center"
     >
       {/* image */}
+
       {post.img && (
-        <div className="lg:w-2/5 ">
+        <div className="lg:w-2/5 overflow-hidden rounded-2xl shadow">
           <Images
             src={post.img}
-            className="rounded-2xl object-cover"
+            className=" object-cover group-hover:scale-110 duration-700 ease-in-out"
             w="700"
             h="500"
           />
@@ -34,10 +34,10 @@ const PostListItems = ({ post }) => {
 
       {/* details */}
       <div className="flex flex-col gap-4 lg:w-3/5">
-        <h1>
+        <h1 className="">
           <Link
             to={post.slug}
-            className="text-2xl md:text-4xl hover:text-red-800 duration-500 ease-in-out"
+            className="text-xl md:text-3xl hover:text-red-800 duration-500 ease-in-out"
           >
             {post.title}
           </Link>

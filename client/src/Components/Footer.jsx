@@ -126,7 +126,7 @@ const Footer = () => {
               <motion.a
                 key={index}
                 variants={fadeUp}
-                whileHover={{ scale: 1.15, rotate: 3 }}
+                whileHover={{ scale: 1.15, rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
                 href="#"
                 className="opacity-50 hover:opacity-100 transition"

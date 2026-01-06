@@ -6,6 +6,7 @@ import { clerkMiddleware } from "@clerk/express";
 import connectDB from "./lib/connectDB.js";
 import userRouter from "./routes/user.route.js";
 import postRouter from "./routes/post.route.js";
+import resourceRouter from "./routes/resource.route.js"
 import webhookRouter from "./routes/webhook.route.js";
 
 dotenv.config();
@@ -42,6 +43,7 @@ app.use(clerkMiddleware());
 /* ================= ROUTES ================= */
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
+app.use("/resources", resourceRouter)
 
 /* ================= ERROR HANDLER ================= */
 app.use((err, req, res, next) => {

@@ -2,6 +2,7 @@ import React from "react";
 import PageWrapper from "../Components/PageWrapper";
 import Navbar from "../Components/Navbar";
 import Featured from "../Components/Featured";
+import { Link } from "react-router-dom";
 
 const ResourcesPage = () => {
   return (
@@ -15,6 +16,9 @@ const ResourcesPage = () => {
           <h1 className="text-2xl md:text-4xl text-center uppercase tracking-widest">
             Resources
           </h1>
+          <div>
+            <Link to="/writeresource" >create posts</Link>
+          </div>
         </div>
       </PageWrapper>
 

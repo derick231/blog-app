@@ -7,8 +7,8 @@ import "react-quill-new/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Upload from "../Components/Upload";
-import BlotFormatter from "quill-blot-formatter";
 import Navbar from "../Components/Navbar";
+import BlotFormatter from "quill-blot-formatter";
 
 // ✅ Register blot formatter (Quill v2 compatible)
 Quill.register("modules/blotFormatter", BlotFormatter);
@@ -104,8 +104,8 @@ const Write = () => {
       <Navbar/>
       </div>
 
-    <div className=" flex flex-col gap-6] px-8 lg:px-16 ">
-      <h1 className="text-xl  my-4">Create a New Post</h1>
+    <div className=" flex flex-col  py-5 md:py-10 px-8 lg:px-16 ">
+      <h1 className="text-xl  mb-5">Create a New Post</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6">
         {/* ================= COVER IMAGE ================= */}
@@ -120,7 +120,7 @@ const Write = () => {
           type="text"
           name="title"
           placeholder="My story"
-          className="bg-transparent outline-none text-xl text-black placeholder:text-black placeholder:italic"
+          className="bg-transparent outline-none text-xl text-black placeholder:text-gray-500 placeholder:italic"
         />
 
         {/* ================= DESCRIPTION ================= */}

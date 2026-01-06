@@ -43,7 +43,7 @@ const PostList = () => {
   return (
     <>
       {/* POSTS */}
-      <div className="flex flex-col gap-12 mb-8">
+      <div className="flex flex-col gap-12">
         {currentPosts.map((post) => (
           <PostListItems key={post._id} post={post} />
         ))}

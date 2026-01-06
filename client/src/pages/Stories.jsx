@@ -87,8 +87,10 @@ const Stories = () => {
         </div>
       </PageWrapper>
 
+      <h1 className="text-2xl md:text-4xl px-8 lg:px-16 pt-8 lg:pt-16 text-red-800 uppercase">Recent Stories</h1>
+
       {/* POSTS SECTION */}
-      <div className="my-8 lg:my-16 flex flex-col gap-4 px-8 lg:px-16">
+      <div className="py-6 lg:py-12 flex flex-col gap-4 px-8 lg:px-16">
         <PostList />
       </div>
     </>
