@@ -1,19 +1,19 @@
-import React from 'react'
-import Card from '../pages/Card'
+import React from "react";
+import Card from "./Card";
 
 const Featured = () => {
   return (
     <div>
-        <Card 
+      <Card
         src={`Diego.png`}
-        title={'Diego'}
-        content = {`dfjsflksdj`}
+        title={"Diego"}
+        content={`dfjsflksdj`}
         path={`/`}
         w={300}
         h={300}
-        />
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Featured
+export default Featured;

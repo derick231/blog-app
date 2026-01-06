@@ -3,7 +3,7 @@ import PageWrapper from "../Components/PageWrapper";
 import Navbar from "../Components/Navbar";
 import Featured from "../Components/Featured";
 
-const Resourcespage = () => {
+const ResourcesPage = () => {
   return (
     <div>
       <PageWrapper bg="resource">
@@ -25,4 +25,4 @@ const Resourcespage = () => {
   );
 };
 
-export default Resourcespage;
+export default ResourcesPage;

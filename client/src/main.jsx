@@ -6,7 +6,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PostListPage from "./pages/PostListPage.jsx";
 import Write from "./pages/Write.jsx";
 
-import Resourcespage from "./pages/Resourcespage.jsx";
 import SinglePostPage from "./pages/SinglePostPage.jsx";
 import MainLayout from "./layout/MainLayout.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
@@ -20,6 +19,7 @@ import AboutPage from "./pages/AboutPage.jsx";
 import MissionPage from "./pages/MissionPage.jsx";
 import VisionPage from "./pages/VisionPage.jsx";
 import HistoryPage from "./pages/HistoryPage.jsx";
+import ResourcesPage from "./pages/ResourcesPage.jsx";
 
 
 const queryClient = new QueryClient();
@@ -84,7 +84,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/resources",
-        element: <Resourcespage />,
+        element: <ResourcesPage />,
       },
     ],
   },
