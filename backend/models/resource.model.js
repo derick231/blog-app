@@ -23,8 +23,11 @@ const resourceSchema = new Schema(
       type: String,
       required: true,
     },
-    files: {
-      type: String,
+    img:{
+        type:String
+    },
+    video:{
+        type:String
     },
     isFeatured: {
       type: Boolean,

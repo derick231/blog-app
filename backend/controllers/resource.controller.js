@@ -1,76 +1,113 @@
-import { getAuth } from "@clerk/express"
-import Resource from "../models/resource.model.js"
-import User from "../models/user.model.js"
+import { getAuth } from "@clerk/express";
+import Resource from "../models/resource.model.js";
+import User from "../models/user.model.js";
 import ImageKit from "imagekit";
 
-
-export const getResources = async(req,res)=>{
-    const resources = await Resource.find()
-
-    res.status(200).json(resources)
-}
-
-export const getResource = async(req, res)=>{
-    const resource = await Resource.findOne({slug: req.params.slug})
-    res.status(200).json(resource)
-}
-
-export const createResource = async (req, res) => {
-  const auth = getAuth(req);
-  const userId = auth.userId;
-
-  if (!userId) {
-    return res.status(401).json("Not authenticated");
+/* ================= GET ALL ================= */
+export const getResources = async (req, res) => {
+  try {
+    const resources = await Resource.find().sort({ createdAt: -1 });
+    res.status(200).json(resources);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch resources" });
   }
-
-  const user = await User.findOne({ clerkUserId: userId });
-
-  if (!user) {
-    return res.status(403).json("User not found");
-  }
-
-  const role = auth.sessionClaims?.metadata?.role || "user";
-
-  if (role !== "admin") {
-    return res.status(403).json("Admins only");
-  }
-
-  // slug logic
-  let slug = req.body.title.replace(/ /g, "-").toLowerCase();
-  let existingResource = await Resource.findOne({ slug });
-  let counter = 2;
-
-  while (existingResource) {
-    slug = `${slug}-${counter++}`;
-    existingResource = await Resource.findOne({ slug });
-  }
-
-  const newResource = new Resource({
-    user: user._id,
-    slug,
-    ...req.body,
-  });
-
-  const resource = await newResource.save();
-  res.status(201).json(resource);
 };
 
-export const uploadAuth = (req, res) => {
-  if (
-    !process.env.IK_PUBLIC_KEY ||
-    !process.env.IK_PRIVATE_KEY ||
-    !process.env.IK_URL_ENDPOINT
-  ) {
-    return res.status(500).json({
-      error: "ImageKit env vars missing",
-    });
+/* ================= GET ONE ================= */
+export const getResource = async (req, res) => {
+  try {
+    const resource = await Resource.findOne({ slug: req.params.slug });
+
+    if (!resource) {
+      return res.status(404).json({ message: "Resource not found" });
+    }
+
+    res.status(200).json(resource);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch resource" });
   }
+};
 
-  const imagekit = new ImageKit({
-    publicKey: process.env.IK_PUBLIC_KEY,
-    privateKey: process.env.IK_PRIVATE_KEY,
-    urlEndpoint: process.env.IK_URL_ENDPOINT,
-  });
+/* ================= CREATE ================= */
+export const createResource = async (req, res) => {
+  try {
+    const auth = getAuth(req);
+    const clerkUserId = auth.userId;
 
-  res.json(imagekit.getAuthenticationParameters());
+    if (!clerkUserId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const user = await User.findOne({ clerkUserId });
+
+    if (!user) {
+      return res.status(403).json({ message: "User not found" });
+    }
+
+    const role = auth.sessionClaims?.metadata?.role;
+
+    if (role !== "admin") {
+      return res.status(403).json({ message: "Admins only" });
+    }
+
+    const { title, desc, content, img, video } = req.body;
+
+    if (!title || !content) {
+      return res.status(400).json({
+        message: "Title and content are required",
+      });
+    }
+
+    /* ---------- slug generation ---------- */
+    const baseSlug = title
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "");
+
+    let slug = baseSlug;
+    let counter = 1;
+
+    while (await Resource.findOne({ slug })) {
+      slug = `${baseSlug}-${++counter}`;
+    }
+
+    const resource = await Resource.create({
+      user: user._id,
+      title,
+      slug,
+      desc,
+      content,
+      img,
+      video,
+    });
+
+    res.status(201).json(resource);
+  } catch (error) {
+    console.error("Create resource error:", error);
+    res.status(500).json({ message: "Failed to create resource" });
+  }
+};
+
+/* ================= IMAGEKIT AUTH ================= */
+export const uploadAuth = (req, res) => {
+  try {
+    const { IK_PUBLIC_KEY, IK_PRIVATE_KEY, IK_URL_ENDPOINT } = process.env;
+
+    if (!IK_PUBLIC_KEY || !IK_PRIVATE_KEY || !IK_URL_ENDPOINT) {
+      return res.status(500).json({
+        message: "ImageKit environment variables missing",
+      });
+    }
+
+    const imagekit = new ImageKit({
+      publicKey: IK_PUBLIC_KEY,
+      privateKey: IK_PRIVATE_KEY,
+      urlEndpoint: IK_URL_ENDPOINT,
+    });
+
+    res.status(200).json(imagekit.getAuthenticationParameters());
+  } catch (error) {
+    res.status(500).json({ message: "Failed to generate upload auth" });
+  }
 };

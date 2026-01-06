@@ -2,14 +2,13 @@ import React, { useRef, useState } from "react";
 import Navbar from "../Components/Navbar";
 import Upload from "../Components/Upload";
 
-import ReactQuill, { Quill } from "react-quill-new";
+import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
-
 
 const WriteResources = () => {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -18,22 +17,22 @@ const WriteResources = () => {
   const quillRef = useRef(null);
 
   const [content, setContent] = useState("");
-  const [img, setImg] = useState(null);
-  const [video, setVideo] = useState(null);
+  const [img, setImg] = useState("");
+  const [video, setVideo] = useState("");
 
-  // ✅ Admin role from Clerk metadata
+  // ✅ admin role from Clerk
   const role = user?.publicMetadata?.role;
 
   // -----------------------------
-  // MUTATION
+  // CREATE RESOURCE
   // -----------------------------
   const mutation = useMutation({
-    mutationFn: async (resourceData) => {
+    mutationFn: async (data) => {
       const token = await getToken();
 
       return axios.post(
         `${import.meta.env.VITE_API_URL}/resources`,
-        resourceData,
+        data,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -42,18 +41,18 @@ const WriteResources = () => {
       );
     },
     onSuccess: () => {
-      toast.success("Resource created successfully!");
+      toast.success("Resource created successfully");
       setContent("");
-      setImg(null);
-      setVideo(null);
+      setImg("");
+      setVideo("");
     },
-    onError: (error) => {
-      toast.error(error.response?.data || "Creation failed");
+    onError: (err) => {
+      toast.error(err.response?.data || "Creation failed");
     },
   });
 
   // -----------------------------
-  // AUTH GUARDS
+  // GUARDS
   // -----------------------------
   if (!isLoaded) return <div>Loading...</div>;
 
@@ -62,7 +61,7 @@ const WriteResources = () => {
       <>
         <Navbar />
         <div className="px-8 py-10 text-red-500">
-          You must be logged in to access this page.
+          You must be logged in.
         </div>
       </>
     );
@@ -80,14 +79,14 @@ const WriteResources = () => {
   }
 
   // -----------------------------
-  // SUBMIT HANDLER
+  // SUBMIT
   // -----------------------------
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
-    const title = formData.get("title");
-    const desc = formData.get("desc");
+    const form = new FormData(e.currentTarget);
+    const title = form.get("title");
+    const desc = form.get("desc");
 
     if (!title || !content) {
       toast.error("Title and content are required");
@@ -112,8 +111,10 @@ const WriteResources = () => {
         <Navbar />
       </div>
 
-      <div className="px-8 lg:px-16 py-5 md:py-10">
-        <h1 className="text-xl md:text-3xl mb-5">Create a new resource</h1>
+      <div className="px-8 lg:px-16 py-10">
+        <h1 className="text-xl md:text-3xl mb-6">
+          Create a new resource
+        </h1>
 
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           <Upload
@@ -147,14 +148,12 @@ const WriteResources = () => {
             onChange={setContent}
             theme="snow"
             className="bg-[#f5f5f5] min-h-[300px]"
-            modules={{
-              blotFormatter: {},
-            }}
           />
 
           <button
+            type="submit"
             disabled={mutation.isPending}
-            className="bg-[#f5f5f5] text-black hover:bg-black hover:text-white border rounded-full px-3 py-2 duration-300 shadow-lg w-36 disabled:bg-slate-500 disabled:cursor-not-allowed"
+            className="bg-[#f5f5f5] text-black hover:bg-black hover:text-white border rounded-full px-4 py-2 duration-300 shadow-lg w-40 disabled:bg-slate-500"
           >
             {mutation.isPending ? "Publishing..." : "Publish"}
           </button>
