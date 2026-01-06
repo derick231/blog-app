@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Navbar from "../Components/Navbar";
 import Upload from "../Components/Upload";
 
