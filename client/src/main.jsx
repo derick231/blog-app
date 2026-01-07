@@ -21,6 +21,7 @@ import VisionPage from "./pages/VisionPage.jsx";
 import HistoryPage from "./pages/HistoryPage.jsx";
 import ResourcesPage from "./pages/ResourcesPage.jsx";
 import WriteResources from "./pages/WriteResources.jsx";
+import SingleResourcePage from "./pages/SingleResourcePage.jsx";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: "/:slug",
         element: <SinglePostPage />,
+      },
+      {
+        path:"/resources/:slug",
+        element: <SingleResourcePage/>
       },
       {
         path: "/write",

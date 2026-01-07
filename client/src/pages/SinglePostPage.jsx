@@ -85,7 +85,7 @@ const SinglePostPage = () => {
         {/* ---------------- HEADER ---------------- */}
         <div className="flex gap-8">
           <motion.div variants={stagger} className="flex flex-col gap-4 lg:w-3/5">
-            <motion.h1 variants={fadeUp} className="text-2xl md:text-4xl">
+            <motion.h1 variants={fadeUp} className="text-2xl md:text-4xl text-red-800">
               {data.title}
             </motion.h1>
 

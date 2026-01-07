@@ -16,6 +16,7 @@ const PostMenuActions = ({ post }) => {
     data: savedPosts,
   } = useQuery({
     queryKey: ["savedPosts"],
+    enabled:  !!user, // 🔥
     queryFn: async () => {
       const token = await getToken();
       return axios.get(`${import.meta.env.VITE_API_URL}/users/saved`, {
@@ -27,7 +28,7 @@ const PostMenuActions = ({ post }) => {
   });
 
   const isSaved = savedPosts?.data?.some((p) => p === post._id) || false;
-  const isAdmin = user?.publicMetadata?.role === "admin" || false
+  const isAdmin = user?.publicMetadata?.role === "admin" || false;
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
@@ -127,7 +128,12 @@ const PostMenuActions = ({ post }) => {
           className="text-xs flex gap-2 mt-2 cursor-pointer items-center"
           onClick={handleDelete}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" height="20" width="20">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 256 256"
+            height="20"
+            width="20"
+          >
             <rect width="256" height="256" fill="none" />
             <line
               x1="216"
