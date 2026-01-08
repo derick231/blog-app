@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import Images from "../Components/Images";
 import { useState } from "react";
-import PostMenuActions from "../Components/PostMenuActions";
 import SideMenu from "../Components/SideMenu";
 
 const fetchResource = async (slug) => {
@@ -83,7 +82,7 @@ const SingleResourcePage = () => {
 
             {/* menu */}
             <div className={`${open ? "block" : "hidden"} lg:block `}>
-              <SideMenu />
+              <SideMenu resource={data} />
             </div>
           </div>
         </div>

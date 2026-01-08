@@ -89,6 +89,75 @@ export const createResource = async (req, res) => {
   }
 };
 
+export const deleteResource = async (req, res) => {
+  try {
+    const auth = getAuth(req);
+    const clerkUserId = auth.userId;
+
+    if (!clerkUserId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const role = auth.sessionClaims?.metadata?.role;
+
+    if (role !== "admin") {
+      return res.status(403).json({ message: "Admin access only" });
+    }
+
+    const resource = await Resource.findById(req.params.id);
+
+    if (!resource) {
+      return res.status(404).json({ message: "Resource not found" });
+    }
+
+    await Resource.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ message: "Resource deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const featureResource = async (req, res) => {
+  try {
+    const auth = getAuth(req);
+    const clerkUserId = auth.userId;
+    const resourceId = req.body.resourceId;
+
+    if (!clerkUserId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const role = auth.sessionClaims?.metadata?.role;
+
+    if (role !== "admin") {
+      return res.status(403).json({ message: "Admin access only" });
+    }
+
+    const resource = await Resource.findById(resourceId);
+
+    if (!resource) {
+      return res.status(404).json({ message: "Resource not found" });
+    }
+
+    const isFeatured = resource.isFeatured;
+
+    const updatedResource = await Resource.findByIdAndUpdate(
+      resourceId,
+      {
+        isFeatured: !isFeatured,
+      },
+      { new: true }
+    );
+
+    res.status(200).json(updatedResource);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 /* ================= IMAGEKIT AUTH ================= */
 export const uploadAuth = (req, res) => {
   try {

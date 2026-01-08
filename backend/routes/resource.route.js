@@ -1,6 +1,8 @@
 import express from "express";
 import {
   createResource,
+  deleteResource,
+  featureResource,
   getResource,
   getResources,
   uploadAuth,
@@ -14,5 +16,7 @@ router.get("/upload-auth", uploadAuth);
 router.get("/", getResources);
 router.get("/:slug", getResource);
 router.post("/", requireAuth(), createResource);
+router.patch("/feature",requireAuth(),featureResource)
+router.delete("/:id",requireAuth(),deleteResource)
 
-export default router
+export default router  
