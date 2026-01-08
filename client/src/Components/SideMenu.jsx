@@ -15,7 +15,10 @@ const SideMenu = ({ resource }) => {
     mutationFn: async () => {
       const token = await getToken();
       return axios.patch(
-        `${import.meta.env.VITE_API_URL}/resources/${resource._id}/feature`,
+        `${import.meta.env.VITE_API_URL}/resources/feature`,
+        {
+          resourceId: resource._id
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
