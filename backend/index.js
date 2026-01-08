@@ -33,8 +33,7 @@ app.use(
   })
 );
 
-// Handle preflight explicitly
-app.options("*", cors());
+
 
 /* ================= WEBHOOK (RAW BODY) ================= */
 app.use("/webhooks", webhookRouter);
