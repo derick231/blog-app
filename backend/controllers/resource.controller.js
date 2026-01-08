@@ -5,8 +5,13 @@ import ImageKit from "imagekit";
 
 /* ================= GET ALL ================= */
 export const getResources = async (req, res) => {
+  const query = req.query;
+  const isFeatured = query.featured;
+
   try {
-    const resources = await Resource.find().sort({ createdAt: -1 });
+    const resources = await Resource.find({
+      ...(isFeatured && { isFeatured: true }),
+    }).sort({ createdAt: -1 });
     res.status(200).json(resources);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch resources" });

@@ -4,6 +4,8 @@ import Navbar from "../Components/Navbar";
 import { Link } from "react-router-dom";
 import ResourcesList from "../Components/ResourcesList";
 import { motion } from "framer-motion";
+import { useUser } from "@clerk/clerk-react";
+import FeaturedResources from "../Components/FeaturedResources";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -15,6 +17,10 @@ const fadeUp = {
 };
 
 const ResourcesPage = () => {
+  const { user } = useUser();
+
+  const isAdmin = user?.publicMetadata?.role === "admin" || false;
+
   return (
     <motion.div
       initial="hidden"
@@ -35,20 +41,24 @@ const ResourcesPage = () => {
               Resources
             </h1>
 
-            <motion.div whileHover={{ scale: 1.05 }}>
-              <Link
-                to="/writeresource"
-                className="border px-6 py-2 uppercase tracking-wide"
-              >
-                Create Post
-              </Link>
-            </motion.div>
+            {isAdmin && (
+              <motion.div whileHover={{ scale: 1.05 }}>
+                <Link
+                  to="/writeresource"
+                  className="border px-6 py-2 uppercase tracking-wide"
+                >
+                  Create Post
+                </Link>
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </PageWrapper>
 
       {/* Content Section */}
       <div className="py-10 md:py-20 px-8 lg:px-16">
+
+        <FeaturedResources />
         <motion.h1
           variants={fadeUp}
           className="text-red-800 text-2xl md:text-4xl pb-10"
