@@ -16,7 +16,7 @@ router.get("/upload-auth", uploadAuth);
 router.get("/", getResources);
 router.get("/:slug", getResource);
 router.post("/", requireAuth(), createResource);
-router.patch("/feature",requireAuth(),featureResource)
+router.patch("/:id/feature",requireAuth(),featureResource)
 router.delete("/:id",requireAuth(),deleteResource)
 
 export default router  
