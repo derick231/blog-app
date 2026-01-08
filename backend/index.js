@@ -6,7 +6,7 @@ import { clerkMiddleware } from "@clerk/express";
 import connectDB from "./lib/connectDB.js";
 import userRouter from "./routes/user.route.js";
 import postRouter from "./routes/post.route.js";
-import resourceRouter from "./routes/resource.route.js"
+import resourceRouter from "./routes/resource.route.js";
 import webhookRouter from "./routes/webhook.route.js";
 
 dotenv.config();
@@ -21,29 +21,34 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: function (origin, callback) {
+    origin: (origin, callback) => {
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("CORS not allowed"));
+        return callback(null, true);
       }
+      return callback(new Error("Not allowed by CORS"));
     },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
 
+// Handle preflight explicitly
+app.options("*", cors());
+
 /* ================= WEBHOOK (RAW BODY) ================= */
 app.use("/webhooks", webhookRouter);
 
-/* ================= MIDDLEWARE ================= */
+/* ================= BODY PARSER ================= */
 app.use(express.json());
+
+/* ================= AUTH ================= */
 app.use(clerkMiddleware());
 
 /* ================= ROUTES ================= */
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
-app.use("/resources", resourceRouter)
+app.use("/resources", resourceRouter);
 
 /* ================= ERROR HANDLER ================= */
 app.use((err, req, res, next) => {
@@ -55,7 +60,8 @@ app.use((err, req, res, next) => {
 
 /* ================= SERVER ================= */
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  connectDB();
+
+app.listen(PORT, async () => {
+  await connectDB();
   console.log(`Server running on port ${PORT}`);
 });
