@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Images from "../Components/Images";
 import { Link, useParams } from "react-router-dom";
 import PostMenuActions from "../Components/PostMenuActions";
-import Search from "../Components/Search";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "timeago.js";
 import axios from "axios";
@@ -83,7 +82,7 @@ const SinglePostPage = () => {
         className="flex flex-col gap-8 lg:py-20 py-10 px-8 lg:px-16"
       >
         {/* ---------------- HEADER ---------------- */}
-        <div className="flex gap-8">
+        <div className="flex gap-8 ">
           <motion.div variants={stagger} className="flex flex-col gap-4 lg:w-3/5">
             <motion.h1 variants={fadeUp} className="text-2xl md:text-4xl text-red-800">
               {data.title}
@@ -126,7 +125,7 @@ const SinglePostPage = () => {
         </motion.button>
 
         {/* ---------------- CONTENT + SIDEBAR ---------------- */}
-        <div className="flex flex-col-reverse lg:flex-row lg:gap-16">
+        <div className="flex flex-col-reverse lg:flex-row lg:gap-16 lg:justify-between">
           {/* Post Content */}
           <motion.div
             variants={fadeUp}
@@ -167,7 +166,7 @@ const SinglePostPage = () => {
                 </div>
 
                 <PostMenuActions post={data} />
-                <Search />
+           
               </motion.aside>
             )}
           </AnimatePresence>
