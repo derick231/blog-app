@@ -16,7 +16,7 @@ const app = express();
 /* ================= CORS ================= */
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://blog-app-x414.vercel.app",
+  "https://nepal.eli-soft.net/semilla",
 ];
 
 app.use(
