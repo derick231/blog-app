@@ -16,7 +16,7 @@ const app = express();
 /* ================= CORS ================= */
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://nepal.eli-soft.net/semilla",
+  "https://nepal.eli-soft.net",
 ];
 
 app.use(
